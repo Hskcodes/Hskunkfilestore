@@ -9,7 +9,7 @@ from pyrogram.enums import ParseMode
 import sys
 from datetime import datetime
 
-from config import API_HASH, APP_ID, LOGGER, TG_BOT_TOKEN, TG_BOT_WORKERS, FORCE_SUB_CHANNEL, CHANNEL_ID, PORT
+from config import API_HASH, APP_ID, LOGGER, TG_BOT_TOKEN, TG_BOT_WORKERS, FORCE_SUB_CHANNEL, CHANNEL_IDS, PORT
 
 class Bot(Client):
     def __init__(self):
@@ -44,7 +44,10 @@ class Bot(Client):
                 self.LOGGER(__name__).info("\nBot Stopped. Join https://t.me/CodeXBotzSupport for support")
                 sys.exit()
         try:
-            db_channel = await self.get_chat(CHANNEL_ID)
+            for channel_id in CHANNEL_IDS:
+    db_channel = await self.get_chat(channel_id)
+    test = await self.send_message(chat_id=db_channel.id, text="Test Message")
+    await test.delete()
             self.db_channel = db_channel
             test = await self.send_message(chat_id = db_channel.id, text = "Test Message")
             await test.delete()
